@@ -30,6 +30,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+
+        # call the player update method move the player
+        player.update(dt)
         
         # At each iteration, it should
         # Use the screen's fill method to fill the screen with a solid "black" color
