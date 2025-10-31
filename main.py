@@ -2,8 +2,10 @@
 # the open-source pygame library
 # through this file
 import pygame
+import sys
 from constants import *
 from player import *
+from asteroidfield import *
 
 
 def main():
@@ -16,11 +18,16 @@ def main():
 
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroidable = pygame.sprite.Group()
 
     Player.containers = (updatable, drawable)
+    Asteroid.containers = (updatable, drawable, asteroidable)
+    AsteroidField.containers = (updatable)
 
     # Instaniate the Player object
     player = Player((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2))
+    # Instaniate the AsteroidField object
+    asteriodfield = AsteroidField()    
 
     dt = 0
 
@@ -34,6 +41,11 @@ def main():
 
         # call the player update method move the player
         updatable.update(dt)
+
+        for asteroid in asteroidable:
+            if asteroid.collisions(player) == True:
+                print("Game over!")
+                sys.exit()
 
         # At each iteration, it should
         # Use the screen's fill method to fill the screen with a solid "black" color
