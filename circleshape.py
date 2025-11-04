@@ -24,7 +24,7 @@ class CircleShape(pygame.sprite.Sprite):
     def collisions(self, other):
         # Distance is the first objects' position (x, y) 
         # calculated to the second objects' distance (x, y)
-        distance =  self.position.distance_to(other.position)
+        distance = self.position.distance_to(other.position)
         # If distance is less than or equal to r1 + r2, 
         # the circles are colliding. If not, they aren't.
         if distance <= self.radius + other.radius:

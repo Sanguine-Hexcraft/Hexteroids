@@ -4,8 +4,11 @@
 import pygame
 import sys
 from constants import *
-from player import *
-from asteroidfield import *
+from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
+from shot import Shot
+
 
 
 def main():
@@ -19,20 +22,23 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroidable = pygame.sprite.Group()
+    space_bullets = pygame.sprite.Group()
 
     Player.containers = (updatable, drawable)
     Asteroid.containers = (updatable, drawable, asteroidable)
     AsteroidField.containers = (updatable)
+    Shot.containers = (updatable, drawable, space_bullets) 
 
     # Instaniate the Player object
     player = Player((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2))
     # Instaniate the AsteroidField object
-    asteriodfield = AsteroidField()    
+    asteroidfield = AsteroidField()    
 
     dt = 0
 
 
     # Use an infinite while loop for the game loop.
+    # MAIN GAME LOOP
     while True:
         # This will check if the user has closed the window and exit the game loop if they do. It will make the window's close button work.
         for event in pygame.event.get():
@@ -46,6 +52,13 @@ def main():
             if asteroid.collisions(player) == True:
                 print("Game over!")
                 sys.exit()
+            
+            for bullet in space_bullets:
+                if asteroid.collisions(bullet):
+                    asteroid.split()
+                    bullet.kill()
+        
+
 
         # At each iteration, it should
         # Use the screen's fill method to fill the screen with a solid "black" color
